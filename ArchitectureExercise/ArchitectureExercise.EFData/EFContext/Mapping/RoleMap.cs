@@ -14,7 +14,7 @@ namespace ArchitectureExercise.EFData.EFContext.Mapping
         {
             HasKey(e => e.Id);
             Property(e => e.Name).IsRequired().HasMaxLength(30);
-            HasMany(e => e.Users).WithMany(e => e.Roles).Map(m => m.MapLeftKey("RoleId"));
+            HasMany(e => e.Users).WithMany(e => e.Roles);
         }
     }
 }
