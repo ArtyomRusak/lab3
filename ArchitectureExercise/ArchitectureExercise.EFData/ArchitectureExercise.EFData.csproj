@@ -46,6 +46,7 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.SqlServer.Compact.4.0.8876.1\lib\net40\System.Data.SqlServerCe.dll</HintPath>
     </Reference>
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -54,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EFContext\Initializers\RecreateAlways.cs" />
+    <Compile Include="EFContext\Initializers\RecreateIfModelChanges.cs" />
     <Compile Include="EFContext\Mapping\RoleMap.cs" />
     <Compile Include="EFContext\Mapping\UserMap.cs" />
     <Compile Include="EFContext\MembershipContext.cs" />

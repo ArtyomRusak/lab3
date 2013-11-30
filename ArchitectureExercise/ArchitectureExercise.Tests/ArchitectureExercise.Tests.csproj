@@ -57,7 +57,8 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-    <Compile Include="RepositoryTests.Role.cs" />
+    <Compile Include="RepositoriesTests.Role.cs" />
+    <Compile Include="ServicesTests.Login.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="RepositoriesTests.User.cs" />
@@ -70,6 +71,10 @@
     <ProjectReference Include="..\ArchitectureExercise.EFData\ArchitectureExercise.EFData.csproj">
       <Project>{66a7ed72-bd9e-4704-9f9d-50dd0a0d2555}</Project>
       <Name>ArchitectureExercise.EFData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ArchitectureExercise.Services\ArchitectureExercise.Services.csproj">
+      <Project>{2866a448-aff3-43f2-b830-f3dc51ba7182}</Project>
+      <Name>ArchitectureExercise.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -13,6 +13,7 @@ using NUnit.Framework;
 
 namespace ArchitectureExercise.Tests
 {
+    [TestFixture]
     public partial class RepositoriesTests
     {
         [Test]

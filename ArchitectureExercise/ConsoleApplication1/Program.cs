@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,24 +23,29 @@ namespace ConsoleApplication1
 
             //Console.ReadLine();
 
+            var user = default(User);
+            Console.WriteLine(user);
 
-            MembershipContext context = new MembershipContext();
-            context.Roles.Add(new Role()
-            {
-                Name = "Admin",
-                Users =
-                    new HashSet<User>()
-                    {
-                        new User()
-                        {
-                            Address = new Address() {City = "Minsk", Street = "Hello"},
-                            Name = "Artyom",
-                            Surname = "Rusak"
-                        }
-                    }
-            });
-            context.SaveChanges();
-            context.Dispose();
+            //Database.SetInitializer(new DropCreateDatabaseIfModelChanges<MembershipContext>());
+            //MembershipContext context = new MembershipContext();
+            //context.Roles.Add(new Role()
+            //{
+            //    Name = "Admin",
+            //    Users =
+            //        new HashSet<User>()
+            //        {
+            //            new User()
+            //            {
+            //                Address = new Address() {City = "Minsk", Street = "Hello"},
+            //                Name = "Artyom",
+            //                Surname = "Rusak",
+            //                Password = "123",
+            //                Email = "bembi1204@gmail.com"
+            //            }
+            //        }
+            //});
+            //context.SaveChanges();
+            //context.Dispose();
         }
     }
 }

@@ -14,7 +14,7 @@ using NUnit.Framework;
 namespace ArchitectureExercise.Tests
 {
     [TestFixture]
-    public partial class RepositoryTests
+    public partial class RepositoriesTests
     {
         [Test]
         public void ShouldAddRoleToDatabase()

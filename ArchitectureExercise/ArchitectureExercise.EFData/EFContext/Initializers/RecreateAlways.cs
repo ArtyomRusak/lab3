@@ -22,6 +22,7 @@ namespace ArchitectureExercise.EFData.EFContext.Initializers
             }
             catch (Exception ex)
             {
+                context.Dispose();
                 throw;
             }
         }
@@ -32,6 +33,8 @@ namespace ArchitectureExercise.EFData.EFContext.Initializers
 
         protected virtual void Seed(MembershipContext context)
         {
+            context.Database.ExecuteSqlCommand("CREATE UNIQUE INDEX IndexEmail ON Users (Email)");
+
             var roles = new HashSet<Role>
             {
                 new Role() {Name = "User"},
@@ -51,6 +54,7 @@ namespace ArchitectureExercise.EFData.EFContext.Initializers
                     Name = "Artyom",
                     Surname = "Rusak",
                     Password = "123456",
+                    Email = "bembi@gmail.com",
                     Address = new Address() {City = "Minsk", Street = "Golubeva"},
                     Roles = new HashSet<Role>() {roles.ElementAt(1)}
                 },
@@ -59,6 +63,7 @@ namespace ArchitectureExercise.EFData.EFContext.Initializers
                     Name = "Egor",
                     Surname = "Rusak",
                     Password = "qwerty",
+                    Email = "tramp@mail.ru",
                     Address = new Address() {City = "Minsk", Street = "Kolasa"},
                     Roles = new HashSet<Role>() {roles.ElementAt(0)}
                 },
@@ -67,6 +72,7 @@ namespace ArchitectureExercise.EFData.EFContext.Initializers
                     Name = "Vasya",
                     Surname = "Ivanov",
                     Password = "qwerty123456",
+                    Email = "bembi1204@gmail.com",
                     Address = new Address() {City = "Gomel", Street = "Molochnaya"},
                     Roles = new HashSet<Role>() {roles.ElementAt(0), roles.ElementAt(1)}
                 }

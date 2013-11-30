@@ -94,5 +94,20 @@ namespace ArchitectureExercise.Services
         }
 
         #endregion
+
+        #region [UserService's members]
+
+        public User GetUserByEmail(string email)
+        {
+            return _repository.All().SingleOrDefault(e => e.Email==email);
+        }
+
+        public bool LoginUser(string email, string password)
+        {
+            var user = GetUserByEmail(email);
+            return user != null && user.Password == password;
+        }
+
+        #endregion
     }
 }
