@@ -1,12 +1,15 @@
 ﻿using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using ArchitectureExercise.Core.Entities;
+using ArchitectureExercise.EFData.EFContext;
 
-namespace ArchitectureExercise.Core.InterfacesRepositories
+namespace ArchitectureExercise.Services
 {
-    public interface IRepository<TEntity> : IRepository, IDisposable where TEntity : Entity
+    public interface IService<TEntity> : IDisposable where TEntity : Entity
     {
         void Create(TEntity value);
         void Update(TEntity value);
@@ -14,7 +17,7 @@ namespace ArchitectureExercise.Core.InterfacesRepositories
         TEntity GetEntityById(int id);
         TEntity Find(Func<TEntity, bool> predicate);
         IQueryable<TEntity> All();
-        IQueryable<TEntity> Filter(Func<TEntity, bool> predicate);
-        void Save();
+        MembershipContext GetCurrentContext();
+        void Commit();
     }
 }

@@ -13,6 +13,16 @@ namespace ConsoleApplication1
     {
         static void Main(string[] args)
         {
+            //MembershipContext context = new MembershipContext();
+            //MembershipContext context1 = new MembershipContext();
+            //if (context.Equals(context1))
+            //{
+            //    Console.WriteLine("Hello");
+            //}
+
+            //Console.ReadLine();
+
+
             MembershipContext context = new MembershipContext();
             context.Roles.Add(new Role()
             {

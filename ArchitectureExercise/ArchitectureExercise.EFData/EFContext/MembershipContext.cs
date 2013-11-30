@@ -16,6 +16,16 @@ namespace ArchitectureExercise.EFData.EFContext
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
 
+        public MembershipContext(string connectionString) : base(connectionString)
+        {
+            
+        }
+
+        public MembershipContext()
+        {
+            
+        }
+
         #region Overrides of DbContext
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

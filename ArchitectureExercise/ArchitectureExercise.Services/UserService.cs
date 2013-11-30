@@ -1,19 +1,21 @@
 ﻿using System;
-using System.Data.Entity;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using ArchitectureExercise.Core.Entities.Membership;
 using ArchitectureExercise.Core.InterfacesRepositories;
 using ArchitectureExercise.EFData.EFContext;
-using ArchitectureExercise.EFData.Repositories.Helpers;
+using ArchitectureExercise.EFData.Repositories;
 
-namespace ArchitectureExercise.EFData.Repositories
+namespace ArchitectureExercise.Services
 {
-    public class UserRepository : IRepository<User>
+    public class UserService : IService<User>
     {
         #region [Private members]
 
         private readonly MembershipContext _context;
-        private readonly DbSet<User> _users;
+        private readonly IRepository<User> _repository;
         private bool _disposed;
 
         #endregion
@@ -21,64 +23,61 @@ namespace ArchitectureExercise.EFData.Repositories
 
         #region [Ctor's]
 
-        public UserRepository(MembershipContext context)
+        public UserService(MembershipContext context)
         {
             _context = context;
-            _users = _context.Set<User>();
+            _repository = new UserRepository(_context);
         }
 
-        public UserRepository()
+        public UserService()
         {
             _context = new MembershipContext();
-            _users = _context.Set<User>();
+            _repository = new UserRepository(_context);
         }
 
         #endregion
 
 
-        #region Implementation of IRepository<User>
+        #region Implementation of IService<User>
 
         public void Create(User value)
         {
-            _users.Add(value);
+            _repository.Create(value);
         }
 
         public void Update(User value)
         {
-            _users.Attach(value);
-            _context.Entry(value).State = EntityState.Modified;
+            _repository.Update(value);
         }
 
         public void Remove(User value)
         {
-            _users.Remove(value);
+            _repository.Remove(value);
         }
 
         public User GetEntityById(int id)
         {
-            return _users.SingleOrDefault(e => e.Id == id);
+            return _repository.GetEntityById(id);
         }
 
         public User Find(Func<User, bool> predicate)
         {
-            RepositoryHelper<User>.CheckPredicate(predicate, "predicate");
-            return _users.SingleOrDefault(predicate);
+            return _repository.Find(predicate);
         }
 
         public IQueryable<User> All()
         {
-            return _users.AsQueryable();
+            return _repository.All();
         }
 
-        public IQueryable<User> Filter(Func<User, bool> predicate)
+        public MembershipContext GetCurrentContext()
         {
-            RepositoryHelper<User>.CheckPredicate(predicate, "predicate");
-            return _users.Where(predicate).AsQueryable();
+            return _context;
         }
 
-        public void Save()
+        public void Commit()
         {
-            _context.SaveChanges();
+            _repository.Save();
         }
 
         #endregion
@@ -89,7 +88,7 @@ namespace ArchitectureExercise.EFData.Repositories
         {
             if (!_disposed)
             {
-                _context.Dispose();
+                _repository.Dispose();
                 _disposed = true;
             }
         }

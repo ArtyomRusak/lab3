@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ArchitectureExercise.Core.Entities.Membership;
 using ArchitectureExercise.Core.InterfacesRepositories;
 using ArchitectureExercise.EFData.EFContext;
-using ArchitectureExercise.EFData.Repositories.Helpers;
+using ArchitectureExercise.EFData.Repositories;
 
-namespace ArchitectureExercise.EFData.Repositories
+namespace ArchitectureExercise.Services
 {
-    public class RoleRepository : IRepository<Role>
+    public class RoleService : IService<Role>
     {
         #region [Private members]
 
         private readonly MembershipContext _context;
-        private readonly DbSet<Role> _roles;
+        private readonly IRepository<Role> _repository;
         private bool _disposed;
 
         #endregion
@@ -24,64 +23,61 @@ namespace ArchitectureExercise.EFData.Repositories
 
         #region [Ctor's]
 
-        public RoleRepository(MembershipContext context)
+        public RoleService(MembershipContext context)
         {
             _context = context;
-            _roles = _context.Set<Role>();
+            _repository = new RoleRepository(_context);
         }
 
-        public RoleRepository()
+        public RoleService()
         {
             _context = new MembershipContext();
-            _roles = _context.Set<Role>();
+            _repository = new RoleRepository(_context);
         }
 
         #endregion
 
 
-        #region Implementation of IRepository<Role>
+        #region Implementation of IService<Role>
 
         public void Create(Role value)
         {
-            _roles.Add(value);
+            _repository.Create(value);
         }
 
         public void Update(Role value)
         {
-            _roles.Attach(value);
-            _context.Entry(value).State = EntityState.Modified;
+            _repository.Update(value);
         }
 
         public void Remove(Role value)
         {
-            _roles.Remove(value);
+            _repository.Remove(value);
         }
 
         public Role GetEntityById(int id)
         {
-            return _roles.SingleOrDefault(e => e.Id == id);
+            return _repository.GetEntityById(id);
         }
 
         public Role Find(Func<Role, bool> predicate)
         {
-            RepositoryHelper<Role>.CheckPredicate(predicate, "predicate");
-            return _roles.SingleOrDefault(predicate);
+            return _repository.Find(predicate);
         }
 
         public IQueryable<Role> All()
         {
-            return _roles;
+            return _repository.All();
         }
 
-        public IQueryable<Role> Filter(Func<Role, bool> predicate)
+        public MembershipContext GetCurrentContext()
         {
-            RepositoryHelper<Role>.CheckPredicate(predicate, "predicate");
-            return _roles.Where(predicate).AsQueryable();
+            return _context;
         }
 
-        public void Save()
+        public void Commit()
         {
-            _context.SaveChanges();
+            _repository.Save();
         }
 
         #endregion
@@ -92,7 +88,7 @@ namespace ArchitectureExercise.EFData.Repositories
         {
             if (!_disposed)
             {
-                _context.Dispose();
+                _repository.Dispose();
                 _disposed = true;
             }
         }

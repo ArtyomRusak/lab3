@@ -18,6 +18,7 @@ namespace ArchitectureExercise.EFData.EFContext.Mapping
             Property(e => e.Address.City).IsRequired().HasMaxLength(30);
             Property(e => e.Address.Street).IsRequired().HasMaxLength(40);
             Property(e => e.Address.NumberOfHouse).IsRequired();
+            Property(e => e.Password).HasMaxLength(16).IsRequired();
             HasMany(e => e.Roles).WithMany(e => e.Users);
         }
     }

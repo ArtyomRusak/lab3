@@ -14,6 +14,7 @@ namespace ArchitectureExercise.Core.Entities.Membership
         public string Name { get; set; }
         public string Surname { get; set; }
         public Address Address { get; set; }
+        public string Password { get; set; }
         public ICollection<Role> Roles { get; set; }
     }
 }
