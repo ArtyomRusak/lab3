@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ArchitectureExercise.EFData.EFContext;
-using ArchitectureExercise.Services;
+using ArchitectureExercise.Services.Helpers;
+using ArchitectureExercise.Services.MembershipServices;
 using FluentAssertions;
 using NUnit.Framework;
 
@@ -16,27 +13,27 @@ namespace ArchitectureExercise.Tests
         [Test]
         public void ReturnTrueIfLoginIsSuccessfull()
         {
-            MembershipContext context = new MembershipContext("TestDatabase");
-            UserService service = new UserService(context);
-            new Func<bool>(() =>
+            var context = new MembershipContext("TestDatabase");
+            var service = new UserService(context);
+            new Func<AuthentificationResult>(() =>
             {
                 var result = service.LoginUser("bembi1204@gmail.com", "qwerty123456");
                 service.Dispose();
                 return result;
-            }).Invoke().Should().Be(true);
+            }).Invoke().Result.Should().Be(true);
         }
 
         [Test]
         public void ReturnFalseIfLoginIsNonSuccessfull()
         {
-            MembershipContext context = new MembershipContext("TestDatabase");
-            UserService service = new UserService(context);
-            new Func<bool>(() =>
+            var context = new MembershipContext("TestDatabase");
+            var service = new UserService(context);
+            new Func<AuthentificationResult>(() =>
             {
                 var result = service.LoginUser("bembi1204@gmail.com", "123456");
                 service.Dispose();
                 return result;
-            }).Invoke().Should().Be(false);
+            }).Invoke().Result.Should().Be(false);
         }
     }
 }

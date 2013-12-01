@@ -1,21 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ArchitectureExercise.Core.Entities.Membership;
 using ArchitectureExercise.Core.InterfacesRepositories;
 using ArchitectureExercise.EFData.EFContext;
 using ArchitectureExercise.EFData.Repositories;
 
-namespace ArchitectureExercise.Services
+namespace ArchitectureExercise.Services.MembershipServices
 {
-    public class UserService : IService<User>
+    public class RoleService : IService<Role>
     {
         #region [Private members]
 
         private readonly MembershipContext _context;
-        private readonly IRepository<User> _repository;
+        private readonly IRepository<Role> _repository;
         private bool _disposed;
 
         #endregion
@@ -23,49 +20,49 @@ namespace ArchitectureExercise.Services
 
         #region [Ctor's]
 
-        public UserService(MembershipContext context)
+        public RoleService(MembershipContext context)
         {
             _context = context;
-            _repository = new UserRepository(_context);
+            _repository = new RoleRepository(_context);
         }
 
-        public UserService()
+        public RoleService()
         {
             _context = new MembershipContext();
-            _repository = new UserRepository(_context);
+            _repository = new RoleRepository(_context);
         }
 
         #endregion
 
 
-        #region Implementation of IService<User>
+        #region Implementation of IService<Role>
 
-        public void Create(User value)
+        public void Create(Role value)
         {
             _repository.Create(value);
         }
 
-        public void Update(User value)
+        public void Update(Role value)
         {
             _repository.Update(value);
         }
 
-        public void Remove(User value)
+        public void Remove(Role value)
         {
             _repository.Remove(value);
         }
 
-        public User GetEntityById(int id)
+        public Role GetEntityById(int id)
         {
             return _repository.GetEntityById(id);
         }
 
-        public User Find(Func<User, bool> predicate)
+        public Role Find(Func<Role, bool> predicate)
         {
             return _repository.Find(predicate);
         }
 
-        public IQueryable<User> All()
+        public IQueryable<Role> All()
         {
             return _repository.All();
         }
@@ -91,21 +88,6 @@ namespace ArchitectureExercise.Services
                 _repository.Dispose();
                 _disposed = true;
             }
-        }
-
-        #endregion
-
-        #region [UserService's members]
-
-        public User GetUserByEmail(string email)
-        {
-            return _repository.All().SingleOrDefault(e => e.Email==email);
-        }
-
-        public bool LoginUser(string email, string password)
-        {
-            var user = GetUserByEmail(email);
-            return user != null && user.Password == password;
         }
 
         #endregion

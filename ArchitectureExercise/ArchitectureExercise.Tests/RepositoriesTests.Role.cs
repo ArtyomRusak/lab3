@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ArchitectureExercise.Core.Entities.Membership;
-using ArchitectureExercise.Core.Entities.Membership.ComplexTypes;
 using ArchitectureExercise.Core.InterfacesRepositories;
 using ArchitectureExercise.EFData.EFContext;
 using ArchitectureExercise.EFData.Repositories;
@@ -19,9 +14,9 @@ namespace ArchitectureExercise.Tests
         [Test]
         public void ShouldAddRoleToDatabase()
         {
-            MembershipContext context = new MembershipContext("TestDatabase");
+            var context = new MembershipContext("TestDatabase");
             IRepository<Role> repository = new RoleRepository(context);
-            var role = new Role() {Name = "New Role"};
+            var role = new Role {Name = "New Role"};
             repository.Create(role);
             repository.Save();
 
@@ -35,7 +30,7 @@ namespace ArchitectureExercise.Tests
         [Test]
         public void ShouldReadRoleFromDatabase()
         {
-            MembershipContext context = new MembershipContext("TestDatabase");
+            var context = new MembershipContext("TestDatabase");
             IRepository<Role> repository = new RoleRepository(context); 
             var role = repository.Find(e => e.Name == "User");
             repository.Dispose();
@@ -45,7 +40,7 @@ namespace ArchitectureExercise.Tests
         [Test]
         public void ShouldUpdateRoleFromDatabase()
         {
-            MembershipContext context = new MembershipContext("TestDatabase");
+            var context = new MembershipContext("TestDatabase");
             IRepository<Role> repository = new RoleRepository(context);
             var role = repository.GetEntityById(1);
             role.Name = "New name for entity";
@@ -54,6 +49,21 @@ namespace ArchitectureExercise.Tests
             repository.Dispose();
 
             role.Should().Be(newRole);
+        }
+
+        [Test]
+        public void ShouldRemoveRoleFromDatabase()
+        {
+            var context = new MembershipContext();
+            IRepository<Role> repository = new RoleRepository(context);
+            var role = repository.Find(e => e.Name == "User");
+            repository.Remove(role);
+            repository.Save();
+
+            var roleObj = repository.Find(e => e.Name == "User");
+            repository.Dispose();
+
+            roleObj.Should().Be(null);
         }
 
         [Test]

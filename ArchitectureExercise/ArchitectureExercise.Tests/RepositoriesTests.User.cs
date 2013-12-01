@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ArchitectureExercise.Core.Entities.Membership;
 using ArchitectureExercise.Core.Entities.Membership.ComplexTypes;
 using ArchitectureExercise.Core.InterfacesRepositories;
@@ -19,14 +16,15 @@ namespace ArchitectureExercise.Tests
         [Test]
         public void ShouldAddUserToDatabase()
         {
-            MembershipContext context = new MembershipContext("TestDatabase");
+            var context = new MembershipContext("TestDatabase");
             IRepository<User> repository = new UserRepository(context);
-            var user = new User()
+            var user = new User
             {
                 Name = "Peter",
                 Surname = "Davidson",
                 Password = "123",
-                Address = new Address()
+                Email = "123456@tut.by",
+                Address = new Address
                 {
                     City = "Minsk",
                     Street = "Golubeva street"
@@ -46,7 +44,7 @@ namespace ArchitectureExercise.Tests
         [Test]
         public void ShouldReadUserFromDatabase()
         {
-            MembershipContext context = new MembershipContext("TestDatabase");
+            var context = new MembershipContext("TestDatabase");
             IRepository<User> repository = new UserRepository(context);
             var user = repository.Find(e => e.Name == "Artyom");
             repository.Dispose();
@@ -56,7 +54,7 @@ namespace ArchitectureExercise.Tests
         [Test]
         public void ShouldUpdateUserFromDatabase()
         {
-            MembershipContext context = new MembershipContext("TestDatabase");
+            var context = new MembershipContext("TestDatabase");
             IRepository<User> repository = new UserRepository(context);
             var user = repository.GetEntityById(3);
             user.Name = "New name for entity";
@@ -65,6 +63,21 @@ namespace ArchitectureExercise.Tests
             repository.Dispose();
 
             user.Should().Be(newUser);
+        }
+
+        [Test]
+        public void ShouldRemoveUserFromDatabase()
+        {
+            var context = new MembershipContext();
+            IRepository<User> repository = new UserRepository(context);
+            var user = repository.Find(e => e.Name == "Artyom");
+            repository.Remove(user);
+            repository.Save();
+
+            var userObj = repository.Find(e => e.Name == "Artyom");
+            repository.Dispose();
+
+            userObj.Should().Be(null);
         }
 
         [Test]
